@@ -104,7 +104,8 @@ module.exports = async function(env) {
                     phase === 'production' || enableServiceWorkerDebugging
                         ? serviceWorkerFileName
                         : false
-                )
+                ),
+                'process.env.MAGENTO_BACKEND_PRODUCT_MEDIA_PATH': JSON.stringify(process.env.MAGENTO_BACKEND_PRODUCT_MEDIA_PATH)
             }),
             new ServiceWorkerPlugin({
                 env,
