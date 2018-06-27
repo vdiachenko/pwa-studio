@@ -7,7 +7,9 @@ test('returns the no-extension basename from a set of URL properties', () => {
 });
 
 test('gets the last path segment', () => {
-    const uri = new URL('https://user:pass@example.com:8000/baseDir/path2/lastSegment.html?some=query');
+    const uri = new URL(
+        'https://user:pass@example.com:8000/baseDir/path2/lastSegment.html?some=query'
+    );
     expect(getUrlKey(uri)).toBe('lastSegment');
 });
 

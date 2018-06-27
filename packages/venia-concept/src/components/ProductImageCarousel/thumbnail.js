@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import classify from 'src/classify';
 import defaultClasses from './thumbnail.css';
-import { grayPlaceholder } from 'src/shared/images';
-import { makeProductMediaPath } from 'src/util/makeMediaPath';
+import { transparentPlaceholder } from 'src/shared/images';
 
 class Thumbnail extends Component {
     static propTypes = {
@@ -20,7 +19,7 @@ class Thumbnail extends Component {
             <div className={classes.root}>
                 <img
                     className={classes.image}
-                    src={item.file ? makeProductMediaPath(item.file) : grayPlaceholder}
+                    src={item.file || transparentPlaceholder}
                     alt={item.label}
                 />
             </div>

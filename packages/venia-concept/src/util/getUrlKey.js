@@ -1,5 +1,3 @@
-import { basename } from "path";
-
 /**
  * Extract the basename from a URL object, which corresponds to the `url_key`
  * property of a Magento 2 GraphQL entity. Mostly used to get the url_key
@@ -13,5 +11,5 @@ export default function getUrlKey(url = window.location) {
     const basename = url.pathname.slice(url.pathname.lastIndexOf('/') + 1);
     // TODO: this may be configurable, but Magento SEO urls appear to always
     // append `.html`, which is not part of the URL key. So strip it.
-    return basename.replace(/\.html$/,'');
+    return basename.replace(/\.html$/, '');
 }

@@ -5,25 +5,24 @@ import { List } from '@magento/peregrine';
 import classify from 'src/classify';
 import Thumbnail from './thumbnail';
 import defaultClasses from './thumbnailList.css';
-import { mediaGalleryEntry } from 'src/shared/propShapes';
 
 class ThumbnailList extends Component {
     static propTypes = {
         classes: PropTypes.shape({
             root: PropTypes.string
         }),
-        items: PropTypes.arrayOf(mediaGalleryEntry).isRequired
+        items: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string,
+                position: PropTypes.number.isRequired,
+                disabled: PropTypes.bool,
+                file: PropTypes.string.isRequired
+            })
+        ).isRequired
     };
 
     render() {
-        // linear-time sort is possible when we have a numeric 'position' prop
-        const validItems = this.props.items
-            .filter(i => !i.disabled)
-            .reduce((sorted, item) => {
-                sorted[item.position - 1] = item;
-                return sorted;
-            }, []);
-        return <List renderItem={Thumbnail} {...this.props} items={validItems} />;
+        return <List renderItem={Thumbnail} {...this.props} />;
     }
 }
 

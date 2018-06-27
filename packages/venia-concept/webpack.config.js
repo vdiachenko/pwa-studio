@@ -105,7 +105,9 @@ module.exports = async function(env) {
                         ? serviceWorkerFileName
                         : false
                 ),
-                'process.env.MAGENTO_BACKEND_PRODUCT_MEDIA_PATH': JSON.stringify(process.env.MAGENTO_BACKEND_PRODUCT_MEDIA_PATH)
+                'process.env.MAGENTO_BACKEND_PRODUCT_MEDIA_PATH': JSON.stringify(
+                    process.env.MAGENTO_BACKEND_PRODUCT_MEDIA_PATH
+                )
             }),
             new ServiceWorkerPlugin({
                 env,
