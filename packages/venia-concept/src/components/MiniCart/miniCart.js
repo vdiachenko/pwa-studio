@@ -1,13 +1,15 @@
 import { Component, createElement } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { shape, string } from 'prop-types';
 import { Price } from '@magento/peregrine';
 
+import { getCartDetails } from 'src/actions';
 import classify from 'src/classify';
 import Button from 'src/components/Button';
 import Icon from 'src/components/Icon';
 import ProductList from './productList';
 import Trigger from './trigger';
-import mockData from './mockData';
 import defaultClasses from './miniCart.css';
 
 class MiniCart extends Component {
@@ -26,13 +28,14 @@ class MiniCart extends Component {
         })
     };
 
-    static defaultProps = {
-        // TODO: remove when connected to graphql
-        data: mockData
-    };
+    constructor(...args) {
+        super(...args);
+        this.props.getCartDetails();
+    }
 
     render() {
-        const { classes, data, isOpen } = this.props;
+        if (this.props.loading) return <div>Fetching Data</div>;
+        const { classes, cart, cartCurrencyCode, isOpen } = this.props;
         const className = isOpen ? classes.root_open : classes.root;
         const iconDimensions = { height: 16, width: 16 };
 
@@ -46,15 +49,30 @@ class MiniCart extends Component {
                         <Icon name="x" />
                     </Trigger>
                 </div>
-                <ProductList items={data} />
+                {cart.items ? (
+                    <ProductList
+                        currencyCode={cartCurrencyCode}
+                        items={cart.items}
+                    />
+                ) : null}
                 <div className={classes.summary}>
                     <dl className={classes.totals}>
                         <dt className={classes.subtotalLabel}>
-                            <span>Subtotal (4 Items)</span>
+                            <span>{`Subtotal${
+                                cart.items_qty
+                                    ? ` (${cart.items_qty} Items)`
+                                    : '...'
+                            }`}</span>
                         </dt>
-                        <dd className={classes.subtotalValue}>
-                            <Price currencyCode="USD" value={528} />
-                        </dd>
+                        {cart.subtotal ? (
+                            <dd className={classes.subtotalValue}>
+                                <span>Subtotal (${cart.items_qty} Items)</span>
+                                <Price
+                                    currencyCode={cartCurrencyCode}
+                                    value={cart.subtotal}
+                                />
+                            </dd>
+                        ) : null}
                     </dl>
                 </div>
                 <div className={classes.cta}>
@@ -68,4 +86,31 @@ class MiniCart extends Component {
     }
 }
 
-export default classify(defaultClasses)(MiniCart);
+export default compose(
+    classify(defaultClasses),
+    connect(
+        ({ app: { cart = {}, lastItemAdded, gettingCart, imagesBySku } }) => {
+            const loading = gettingCart;
+            const { currency } = cart;
+            const cartCurrencyCode = currency && currency.quote_currency_code;
+            const itemsWithImages =
+                cart.items &&
+                cart.items.map(item => ({
+                    ...item,
+                    image: item.image || imagesBySku[item.sku] || ''
+                }));
+            return {
+                cart: {
+                    ...cart,
+                    items: itemsWithImages
+                },
+                lastItemAdded,
+                cartCurrencyCode,
+                loading
+            };
+        },
+        {
+            getCartDetails
+        }
+    )
+)(MiniCart);

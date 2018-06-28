@@ -1,60 +1,62 @@
 {
-  "name": "@magento/peregrine",
-  "version": "0.4.0",
-  "description": "The core runtime of Magento PWA",
-  "license": "(OSL-3.0 OR AFL-3.0)",
-  "author": "Magento Commerce",
-  "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/magento-research/peregrine"
-  },
-  "scripts": {
-    "build": "babel src -d dist --ignore '*.test.js,*.spec.js'",
-    "danger": "danger-ci",
-    "clean": "rimraf dist",
-    "prepare": "npm-merge-driver install",
-    "storybook": "start-storybook -p 9001 -c .storybook",
-    "storybook:build": "build-storybook -c .storybook -o storybook-dist"
-  },
-  "dependencies": {},
-  "peerDependencies": {
-    "babel-runtime": "^6.0.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
-    "react-router-dom": "^4.2.2",
-    "redux": "^3.7.2"
-  },
-  "devDependencies": {
-    "@storybook/addon-actions": "^3.4.2",
-    "@storybook/addons": "^3.4.6",
-    "@storybook/react": "^3.4.2",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
-    "danger": "^3.4.5",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "execa": "^0.10.0",
-    "intl": "^1.2.5",
-    "jest-fetch-mock": "^1.4.1",
-    "npm-merge-driver": "^2.3.5",
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
-    "react-router-dom": "^4.2.2",
-    "redux": "^3.7.2",
-    "rimraf": "^2.6.2",
-    "storybook-readme": "^3.3.0"
-  }
+    "name": "@magento/peregrine",
+    "version": "0.4.0",
+    "description": "The core runtime of Magento PWA",
+    "license": "(OSL-3.0 OR AFL-3.0)",
+    "author": "Magento Commerce",
+    "main": "dist/index.js",
+    "files": [
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/magento-research/peregrine"
+    },
+    "scripts": {
+        "build": "babel src -d dist --ignore '*.test.js,*.spec.js'",
+        "danger": "danger-ci",
+        "clean": "rimraf dist",
+        "prepare": "npm-merge-driver install",
+        "storybook": "start-storybook -p 9001 -c .storybook",
+        "storybook:build": "build-storybook -c .storybook -o storybook-dist"
+    },
+    "dependencies": {
+        "redux-promise": "^0.6.0"
+    },
+    "peerDependencies": {
+        "babel-runtime": "^6.0.0",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-redux": "^5.0.6",
+        "react-router-dom": "^4.2.2",
+        "redux": "^3.7.2"
+    },
+    "devDependencies": {
+        "@storybook/addon-actions": "^3.4.2",
+        "@storybook/addons": "^3.4.6",
+        "@storybook/react": "^3.4.2",
+        "babel-cli": "^6.26.0",
+        "babel-core": "^6.26.0",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-plugin-transform-react-jsx": "^6.24.1",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-preset-env": "^1.6.1",
+        "danger": "^3.4.5",
+        "enzyme": "^3.3.0",
+        "enzyme-adapter-react-16": "^1.1.1",
+        "execa": "^0.10.0",
+        "intl": "^1.2.5",
+        "jest-fetch-mock": "^1.4.1",
+        "npm-merge-driver": "^2.3.5",
+        "prop-types": "^15.6.0",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-redux": "^5.0.6",
+        "react-router-dom": "^4.2.2",
+        "redux": "^3.7.2",
+        "rimraf": "^2.6.2",
+        "storybook-readme": "^3.3.0"
+    }
 }
