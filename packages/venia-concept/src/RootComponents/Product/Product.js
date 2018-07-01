@@ -1,5 +1,5 @@
 import { Component, createElement } from 'react';
-import { bool, shape, number, arrayOf, string } from 'prop-types';
+import { bool, shape, number, arrayOf, objectOf, string } from 'prop-types';
 import { Price } from '@magento/peregrine';
 
 import classify from 'src/classify';
@@ -13,6 +13,13 @@ import defaultClasses from './product.css';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
+/**
+ * As of this writing, there is no single Product query type in the M2.3 schema.
+ * The recommended solution is to use filter criteria on a Products query.
+ * However, the `id` argument is not supported. See
+ * https://github.com/magento/graphql-ce/issues/86
+ * TODO: Replace with a single product query when possible.
+ */
 const productDetailQuery = gql`
     query productDetail($urlKey: String) {
         productDetail: products(filter: { url_key: { eq: $urlKey } }) {
@@ -41,9 +48,7 @@ const productDetailQuery = gql`
 
 class Product extends Component {
     static propTypes = {
-        classes: shape({
-            root: string
-        }),
+        classes: objectOf(string).isRequired,
         data: shape({
             productDetail: shape({
                 total_count: number,

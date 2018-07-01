@@ -14,7 +14,7 @@ class ThumbnailList extends Component {
         items: PropTypes.arrayOf(
             PropTypes.shape({
                 label: PropTypes.string,
-                position: PropTypes.number.isRequired,
+                position: PropTypes.number,
                 disabled: PropTypes.bool,
                 file: PropTypes.string.isRequired
             })

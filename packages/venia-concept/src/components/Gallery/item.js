@@ -111,11 +111,13 @@ class GalleryItem extends Component {
     };
 
     /**
-     * Product images are currently broken and pending a fix from the `graphql-ce` project
+     * TODO: Product images are currently broken and pending a fix from the `graphql-ce` project
      * https://github.com/magento/graphql-ce/issues/88
      *
-     * When using sample data, which symlinks to bypass cache,
-     * you can simple prepend /media/catalog/product/, which we'll do from .env.
+     * When using sample data, which uses symlinks to bypass cache,
+     * you can simply prepend /media/catalog/product/, which we will do by
+     * default, but allow the env var MAGENTO_BACKEND_PRODUCT_MEDIA_PATH to
+     * override.
      */
     renderImage = () => {
         const { classes, item, showImage } = this.props;

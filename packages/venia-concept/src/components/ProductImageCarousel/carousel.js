@@ -1,5 +1,6 @@
 import { Component, createElement } from 'react';
 import PropTypes from 'prop-types';
+import memoize from 'memoize-one';
 
 import classify from 'src/classify';
 import ThumbnailList from './thumbnailList';
@@ -9,52 +10,40 @@ import { transparentPlaceholder } from 'src/shared/images';
 
 class Carousel extends Component {
     static propTypes = {
-        classes: PropTypes.shape({
-            currentImageFile: PropTypes.string,
-            root: PropTypes.string
-        }),
+        classes: PropTypes.objectOf(PropTYpes.string),
         images: PropTypes.arrayOf(
             PropTypes.shape({
                 label: PropTypes.string,
-                position: PropTypes.number.isRequired,
+                position: PropTypes.number,
                 disabled: PropTypes.bool,
                 file: PropTypes.string.isRequired
             })
         ).isRequired
     };
 
-    shouldComponentUpdate({ images }) {
-        return (
-            images.length !== this.props.images.length ||
-            this.props.images.some(({ label, position, disabled, file }, i) => {
-                const image = images[i];
-                return (
-                    image.label !== label ||
-                    image.position !== position ||
-                    image.disabled !== disabled ||
-                    image.file !== file
-                );
-            })
-        );
-    }
+    // The spec does not guarantee a position parameter,
+    // so the rule will be to order items without position last.
+    // See https://github.com/magento/graphql-ce/issues/113.
+    // Memoize this expensive operation based on reference equality
+    // of the `images` array. Apollo cache should return a new array
+    // only when it does a new fetch.
+    sortAndFilterImages = memoize(items =>
+        items.filter(i => !i.disabled).sort((a, b) => {
+            const aPos = isNaN(a.position) ? 9999 : a.position;
+            const bPos = isNaN(b.position) ? 9999 : b.position;
+            return bPos - aPos;
+        })
+    );
 
     render() {
         const { classes, images } = this.props;
-        // the order of the array is not guaranteed to be the position order,
-        // but we can do linear-time sort with the `position` prop.
-        const sortedImages = images
-            .filter(i => !i.disabled)
-            .reduce((sorted, { label, position, file }) => {
-                sorted[position - 1] = {
-                    label,
-                    position,
-                    file: makeProductMediaPath(file)
-                };
-                return sorted;
-            }, []);
+
+        const sortedImages = this.sortAndFilterImages(images);
 
         const mainImage = sortedImages[0] || {};
-        const src = mainImage.file || transparentPlaceholder;
+        const src = mainImage.file
+            ? makeProductMediaPath(mainImage.file)
+            : transparentPlaceholder;
         const alt = mainImage.label || 'product';
         return (
             <div className={classes.root}>
