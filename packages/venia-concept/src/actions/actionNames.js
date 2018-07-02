@@ -4,3 +4,4 @@ export const GET_CART_TOTALS = 'GET_CART_TOTALS';
 export const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 export const PROMISE_PENDING = 'PROMISE_PENDING';
+export const PROMISE_DONE = 'PROMISE_DONE';

@@ -1,21 +1,31 @@
 import * as A from 'src/actions/actionNames';
-// const IMAGES_BY_SKU = 'M2imagesBySku';
 // Since initialState builds by calling a side effect (calling localStorage),
 // avoid side effects on module load by putting initialState in a function.
 const getInitialState = () => ({
     drawer: null,
     overlay: false,
     pending: {}
-    // imagesBySku: JSON.parse(localStorage.getItem(IMAGES_BY_SKU)) || {}
 });
 
-const reducer = (state = getInitialState(), { error, payload, type, meta }) => {
+const reducer = (state = getInitialState(), { error, payload, type }) => {
     switch (type) {
         case A.PROMISE_PENDING: {
+            switch (payload.action.type) {
+                case A.ADD_ITEM_TO_CART:
+                case A.GET_CART_DETAILS:
+                    return {
+                        ...state,
+                        imagesBySku: payload.action.meta.imagesBySku,
+                        pending: {
+                            ...state.pending,
+                            [payload.action.type]: true
+                        }
+                    };
+            }
             return {
                 ...state,
                 pending: {
-                    ...pending,
+                    ...state.pending,
                     [payload.action.type]: true
                 }
             };
@@ -24,7 +34,7 @@ const reducer = (state = getInitialState(), { error, payload, type, meta }) => {
             return {
                 ...state,
                 pending: {
-                    ...pending,
+                    ...state.pending,
                     [payload.action.type]: false
                 }
             };
@@ -45,20 +55,8 @@ const reducer = (state = getInitialState(), { error, payload, type, meta }) => {
             };
         }
         case A.ADD_ITEM_TO_CART: {
-            // cart items don't have images in the REST API;
-            // this is the most efficient way to manage that,
-            // but it should go in a data layer
-            const { imagesBySku } = state;
-            const {
-                item: { sku },
-                cartImage
-            } = meta;
-            if (sku && cartImage) {
-                imagesBySku[sku] = cartImage;
-            }
             return {
                 ...state,
-                imagesBySku,
                 showError: error,
                 addingToCart: false,
                 lastItemAdded: payload

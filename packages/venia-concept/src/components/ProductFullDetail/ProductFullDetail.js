@@ -1,5 +1,13 @@
 import { Component, createElement } from 'react';
-import { bool, func, shape, number, arrayOf, string } from 'prop-types';
+import {
+    bool,
+    func,
+    shape,
+    number,
+    objectOf,
+    arrayOf,
+    string
+} from 'prop-types';
 import { Price } from '@magento/peregrine';
 
 import classify from 'src/classify';
@@ -10,9 +18,7 @@ import defaultClasses from './productFullDetail.css';
 
 class ProductFullDetail extends Component {
     static propTypes = {
-        classes: shape({
-            root: string
-        }),
+        classes: objectOf(string).isRequired,
         product: shape({
             id: number,
             sku: string.isRequired,
@@ -27,7 +33,7 @@ class ProductFullDetail extends Component {
             media_gallery_entries: arrayOf(
                 shape({
                     label: string,
-                    position: number.isRequired,
+                    position: number,
                     disabled: bool,
                     file: string.isRequired
                 })

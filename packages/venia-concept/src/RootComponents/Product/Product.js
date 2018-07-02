@@ -1,5 +1,5 @@
 import { Component, createElement } from 'react';
-import { bool, shape, number, arrayOf, objectOf, string } from 'prop-types';
+import { bool, shape, number, arrayOf, string } from 'prop-types';
 
 import getUrlKey from 'src/util/getUrlKey';
 import Page from 'src/components/Page';
@@ -46,7 +46,6 @@ const productDetailQuery = gql`
 
 class Product extends Component {
     static propTypes = {
-        classes: objectOf(string).isRequired,
         data: shape({
             productDetail: shape({
                 total_count: number,
