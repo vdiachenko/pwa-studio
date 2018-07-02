@@ -10,7 +10,7 @@ import { transparentPlaceholder } from 'src/shared/images';
 
 class Carousel extends Component {
     static propTypes = {
-        classes: PropTypes.objectOf(PropTYpes.string),
+        classes: PropTypes.objectOf(PropTypes.string),
         images: PropTypes.arrayOf(
             PropTypes.shape({
                 label: PropTypes.string,
